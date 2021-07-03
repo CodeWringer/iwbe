@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoreSystem;
+using System;
 using System.Drawing;
 
 namespace Iwbe.Domain.Model
@@ -8,19 +9,24 @@ namespace Iwbe.Domain.Model
     /// </summary>
     public class ColorStop
     {
+        public Watchable<Color> ColorWatchable = new Watchable<Color>();
         /// <summary>
         /// The color at full strength of the color stop. 
         /// </summary>
-        public Color Color;
+        public Color Color
+        {
+            get => ColorWatchable.Value;
+            set => ColorWatchable.Value = value;
+        }
 
-        private float _position;
+        public Watchable<float> PositionWatchable = new Watchable<float>();
         /// <summary>
         /// From 0.0 to 1.0, where the color stop is at full strength. 
         /// </summary>
         public float Position
         {
-            get { return _position; }
-            set { _position = Math.Clamp(value, 0.0f, 1.0f); }
+            get => PositionWatchable.Value;
+            set => PositionWatchable.Value = value;
         }
     }
 }

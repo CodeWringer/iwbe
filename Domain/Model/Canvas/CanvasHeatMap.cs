@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using StoreSystem;
 
 namespace Iwbe.Domain.Model
 {
@@ -7,14 +7,24 @@ namespace Iwbe.Domain.Model
     /// </summary>
     public class CanvasHeatMap : CanvasDrawable
     {
+        public WatchableCollection<ColorStop> ContentWatchable = new WatchableCollection<ColorStop>();
         /// <summary>
         /// Colors to use for the heat map. 
         /// </summary>
-        public List<ColorStop> ColorStops;
+        public ObservableList<ColorStop> ColorStops
+        {
+            get => ContentWatchable.Collection;
+            set => ContentWatchable.Collection = value;
+        }
 
+        public WatchableCollection<CanvasHeatSource> HeatSourcesWatchable = new WatchableCollection<CanvasHeatSource>();
         /// <summary>
         /// A list of points with a radius and intensity. 
         /// </summary>
-        public List<CanvasHeatSource> HeatSources;
+        public ObservableList<CanvasHeatSource> HeatSources
+        {
+            get => HeatSourcesWatchable.Collection;
+            set => HeatSourcesWatchable.Collection = value;
+        }
     }
 }

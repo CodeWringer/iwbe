@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using StoreSystem;
+using System.Drawing;
 using System.Numerics;
 
 namespace Iwbe.Domain.Model
@@ -8,20 +9,24 @@ namespace Iwbe.Domain.Model
     /// </summary>
     public class CanvasSymbol : CanvasDrawable
     {
+        public Watchable<string> PathWatchable = new Watchable<string>();
         /// <summary>
         /// Full project-relative file path to an image on disk. 
         /// </summary>
-        public string Path;
+        public string Path
+        {
+            get => PathWatchable.Value;
+            set => PathWatchable.Value = value;
+        }
 
+        public Watchable<Rectangle> RectWatchable = new Watchable<Rectangle>();
         /// <summary>
         /// 
         /// </summary>
-        public Rectangle Rect;
-
-        public new Vector2 Position
+        public Rectangle Rect
         {
-            get { return new Vector2(Rect.Location.X, Rect.Location.Y); }
-            set { Rect.Location = new Point((int)value.X, (int)value.Y); }
+            get => RectWatchable.Value;
+            set => RectWatchable.Value = value;
         }
     }
 }

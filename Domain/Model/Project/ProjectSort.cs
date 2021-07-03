@@ -2,14 +2,14 @@
 {
     public struct ProjectSort
     {
-        public SortDirections direction;
+        public SortDirections Direction;
 
-        public ProjectSortProperties projectSortProperty;
+        public ProjectSortProperties ProjectSortProperty;
 
         public ProjectSort(SortDirections direction, ProjectSortProperties property)
         {
-            this.direction = direction;
-            this.projectSortProperty = property;
+            this.Direction = direction;
+            this.ProjectSortProperty = property;
         }
     }
 }

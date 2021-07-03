@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoreSystem;
+using System;
 using System.Drawing;
 
 namespace Iwbe.Domain.Model
@@ -8,36 +9,46 @@ namespace Iwbe.Domain.Model
     /// </summary>
     public class LineStyle
     {
+        public Watchable<Color> ColorWatchable = new Watchable<Color>();
         /// <summary>
         /// The line's color. 
         /// </summary>
-        public Color Color;
+        public Color Color
+        {
+            get => ColorWatchable.Value;
+            set => ColorWatchable.Value = value;
+        }
 
+        public Watchable<DashTypes> DashTypeWatchable = new Watchable<DashTypes>();
         /// <summary>
         /// The line's dash style. 
         /// </summary>
-        public DashTypes DashType;
+        public DashTypes DashType
+        {
+            get => DashTypeWatchable.Value;
+            set => DashTypeWatchable.Value = value;
+        }
 
-        private float _dashInterval;
+        public Watchable<float> DashIntervalWatchable = new Watchable<float>();
         /// <summary>
         /// If not DashType == DashTypes.None, the distance between dashes or dots. 
         /// Min: 0.0f
         /// </summary>
         public float DashInterval
         {
-            get { return _dashInterval; }
-            set { _dashInterval = Math.Max(0.0f, value); }
+            get => DashIntervalWatchable.Value;
+            set => DashIntervalWatchable.Value = value;
         }
 
-        private float _width;
+        public Watchable<float> WidthWatchable = new Watchable<float>();
         /// <summary>
         /// Width of the line or dashes/dots. 
         /// Min: 0.0f
         /// </summary>
         public float Width
         {
-            get { return _width; }
-            set { _width = Math.Max(0.0f, value); }
+            get => WidthWatchable.Value;
+            set => WidthWatchable.Value = value;
         }
     }
 

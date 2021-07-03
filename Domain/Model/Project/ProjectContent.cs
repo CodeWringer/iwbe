@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using StoreSystem;
+using System;
 
 namespace Iwbe.Domain.Model
 {
@@ -8,24 +8,44 @@ namespace Iwbe.Domain.Model
     /// </summary>
     public class ProjectContent
     {
+        public WatchableCollection<string> WritingWatchable = new WatchableCollection<string>();
         /// <summary>
         /// List of project-relative file paths of article definitions. 
         /// </summary>
-        public List<string> Writing;
+        public ObservableList<string> Writing
+        {
+            get => WritingWatchable.Collection;
+            set => WritingWatchable.Collection = value;
+        }
 
+        public WatchableCollection<string> CanvasWatchable = new WatchableCollection<string>();
         /// <summary>
         /// List of project-relative file paths of canvas objects. 
         /// </summary>
-        public List<string> Canvas;
+        public ObservableList<string> Canvas
+        {
+            get => CanvasWatchable.Collection;
+            set => CanvasWatchable.Collection = value;
+        }
 
+        public WatchableCollection<string> HierarchiesWatchable = new WatchableCollection<string>();
         /// <summary>
         /// List of project-relative file paths of hierarchy definitions. 
         /// </summary>
-        public List<string> Hierarchies;
+        public ObservableList<string> Hierarchies
+        {
+            get => HierarchiesWatchable.Collection;
+            set => HierarchiesWatchable.Collection = value;
+        }
 
+        public WatchableCollection<string> TimelineWatchable = new WatchableCollection<string>();
         /// <summary>
         /// List of project-relative file paths of timeline definitions. 
         /// </summary>
-        public List<string> Timeline;
+        public ObservableList<string> Timeline
+        {
+            get => TimelineWatchable.Collection;
+            set => TimelineWatchable.Collection = value;
+        }
     }
 }

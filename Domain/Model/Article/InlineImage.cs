@@ -36,7 +36,7 @@ namespace Iwbe.Domain.Model
         public float MaxHeight
         {
             get => MaxHeightWatchable.Value;
-            set => MaxHeightWatchable.Value = Math.Max(0.0f, value);
+            set => MaxHeightWatchable.Value = value;
         }
 
         public Watchable<float> MaxWidthWatchable = new Watchable<float>();
@@ -47,7 +47,7 @@ namespace Iwbe.Domain.Model
         public float MaxWidth
         {
             get => MaxWidthWatchable.Value;
-            set => MaxWidthWatchable.Value = Math.Max(0.0f, value);
+            set => MaxWidthWatchable.Value = value;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StoreSystem;
+using System;
 using System.Numerics;
 
 namespace Iwbe.Domain.Model
@@ -8,31 +9,36 @@ namespace Iwbe.Domain.Model
     /// </summary>
     public class CanvasHeatSource
     {
+        public Watchable<Vector2> PositionWatchable = new Watchable<Vector2>();
         /// <summary>
         /// Position on canvas, relative to parent heat map. 
         /// </summary>
-        public Vector2 Position;
+        public Vector2 Position
+        {
+            get => PositionWatchable.Value;
+            set => PositionWatchable.Value = value;
+        }
 
-        private float _radius;
+        public Watchable<float> RadiusWatchable = new Watchable<float>();
         /// <summary>
         /// Radius in pixels. 
         /// Min: 0.0f
         /// </summary>
         public float Radius
         {
-            get { return _radius; }
-            set { _radius = Math.Max(0.0f, value); }
+            get => RadiusWatchable.Value;
+            set => RadiusWatchable.Value = value;
         }
 
-        private float _intensity;
+        public Watchable<float> IntensityWatchable = new Watchable<float>();
         /// <summary>
         /// Intensity of the heat source. 
         /// 0.0f - 1.0f
         /// </summary>
         public float Intensity
         {
-            get { return _intensity; }
-            set { _intensity = Math.Clamp(value, 0.0f, 1.0f); }
+            get => IntensityWatchable.Value;
+            set => IntensityWatchable.Value = value;
         }
     }
 }

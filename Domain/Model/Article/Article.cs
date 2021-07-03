@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using StoreSystem;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Iwbe.Domain.Model
@@ -14,36 +14,58 @@ namespace Iwbe.Domain.Model
         /// </summary>
         public Guid Id { get; private set; }
 
+        public Watchable<string> TitleWatchable = new Watchable<string>();
         /// <summary>
         /// Display name of the article. 
         /// </summary>
-        public string Title;
+        public string Title
+        {
+            get => TitleWatchable.Value;
+            set => TitleWatchable.Value = value;
+        }
 
+        public Watchable<long> WordCountWatchable = new Watchable<long>();
         /// <summary>
         /// The number of words the article content contains. 
         /// </summary>
-        public long WordCount;
+        public long WordCount
+        {
+            get => WordCountWatchable.Value;
+            set => WordCountWatchable.Value = value;
+        }
 
+        public Watchable<string> TypeWatchable = new Watchable<string>();
         /// <summary>
         /// The type of thing this article describes. E. g. "Character", "Nation", "Location", "Item", etc. 
         /// </summary>
-        public string Type;
+        public string Type
+        {
+            get => TypeWatchable.Value;
+            set => TypeWatchable.Value = value;
+        }
 
+        public WatchableCollection<LocalizedContent> ContentWatchable = new WatchableCollection<LocalizedContent>();
         /// <summary>
         /// The actual content of the article. 
         /// </summary>
-        public List<LocalizedContent> Content;
+        public ObservableList<LocalizedContent> Content
+        {
+            get => ContentWatchable.Collection;
+            set => ContentWatchable.Collection = value;
+        }
 
+        public WatchableCollection<LocalizedContent> ProminentContentWatchable = new WatchableCollection<LocalizedContent>();
         /// <summary>
         /// List of prominent content, which should be displayed in its own, easily accessible block. 
         /// </summary>
-        public List<LocalizedContent> ProminentContent;
+        public ObservableList<LocalizedContent> ProminentContent
+        {
+            get => ProminentContentWatchable.Collection;
+            set => ProminentContentWatchable.Collection = value;
+        }
 
         public Article(Guid id)
         {
-            this.Content = new List<LocalizedContent>();
-            this.ProminentContent = new List<LocalizedContent>();
-
             this.Id = id;
         }
 

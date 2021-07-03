@@ -1,2 +1,2 @@
-# iwbeWpf
-An application aimed at those engaging in the hobby of world building.
+# Integrated World Building Environment (IWBE)
+An application to aid in world building, by allowing to connect and visualize information related to works of fiction. 

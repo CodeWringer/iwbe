@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>false</UseWPF>
+    <RootNamespace>Iwbe.Presentation</RootNamespace>
+    <PackageIcon>icon.png</PackageIcon>
+    <Copyright>Nicolas Haase (nh@lutzhaase.com)</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/CodeWringer/iwbeWpf</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="icon\**" />
+    <EmbeddedResource Remove="icon\**" />
+    <None Remove="icon\**" />
+    <None Include="..\..\..\..\Godot\projects\IWBE\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\..\..\Godot\projects\IWBE\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <Page Remove="icon\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="globe-armature-01.svg" />
+    <None Remove="img\doc-01x64.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.6" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\StoreSystem\StoreSystem.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\doc-01x64.png" />
+  </ItemGroup>
+
+</Project>

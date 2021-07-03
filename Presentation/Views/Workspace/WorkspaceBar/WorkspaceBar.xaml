@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Iwbe.Presentation.WorkspaceBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Iwbe.Presentation"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Orientation="Vertical" 
+                Width="64px"
+                Style="{StaticResource Panel_Darker}"
+                >
+        <Button 
+            x:Name="btnWorkspaceProject" 
+            Width="64px" 
+            Height="64px" 
+            Style="{StaticResource FlatButton}"
+            Click="btnWorkspaceCanvas_Click"
+            >
+            <Image Source="/img/doc-01x64.png" />
+        </Button>
+        <Button 
+            x:Name="btnWorkspaceWriting" 
+            Width="64px" 
+            Height="64px" 
+            Style="{StaticResource FlatButton}"
+            Click="btnWorkspaceWriting_Click"
+            >
+            <Image Source="/img/doc-01x64.png" />
+        </Button>
+        <Button 
+            x:Name="btnWorkspaceCanvas" 
+            Width="64px" 
+            Height="64px" 
+            Style="{StaticResource FlatButton}"
+            Click="btnWorkspaceCanvas_Click"
+            >
+            <Image Source="/img/doc-01x64.png" />
+        </Button>
+        <Button 
+            x:Name="btnWorkspaceTimeline" 
+            Width="64px" 
+            Height="64px" 
+            Style="{StaticResource FlatButton}"
+            Click="btnWorkspaceTimeline_Click"
+            >
+            <Image Source="/img/doc-01x64.png" />
+        </Button>
+        <Button 
+            x:Name="btnWorkspaceHierarchies" 
+            Width="64px" 
+            Height="64px" 
+            Style="{StaticResource FlatButton}"
+            Click="btnWorkspaceHierarchies_Click"
+            >
+            <Image Source="/img/doc-01x64.png" />
+        </Button>
+        <Button 
+            x:Name="btnWorkspaceSearch" 
+            Width="64px" 
+            Height="64px" 
+            Style="{StaticResource FlatButton}"
+            Click="btnWorkspaceSearch_Click"
+            >
+            <Image Source="/img/doc-01x64.png" />
+        </Button>
+    </StackPanel>
+</UserControl>

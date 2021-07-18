@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace StoreSystem
+namespace DataStore
 {
     // Non-generic events. 
     public delegate void WatchableItemAddHandler(IWatchableCollection watchable, ItemAddRemoveChange change);
@@ -8,6 +8,8 @@ namespace StoreSystem
     public delegate void WatchableItemReplaceHandler(IWatchableCollection watchable, ItemReplaceChange change);
     public delegate void WatchableItemMoveHandler(IWatchableCollection watchable, ItemMoveChange change);
     public delegate void WatchableSortHandler(IWatchableCollection watchable, IEnumerable<ItemMoveChange> changes);
+    public delegate void WatchableClearHandler(IWatchableCollection watchable, IEnumerable<ItemAddRemoveChange> changes);
+    public delegate void WatchableItemsSetHandler(IWatchableCollection watchable, ItemsSetChange change);
 
     // Generic events. 
     public delegate void WatchableItemAddHandler<T>(IWatchableCollection<T> watchable, ItemAddRemoveChange<T> change);
@@ -15,6 +17,8 @@ namespace StoreSystem
     public delegate void WatchableItemReplaceHandler<T>(IWatchableCollection<T> watchable, ItemReplaceChange<T> change);
     public delegate void WatchableItemMoveHandler<T>(IWatchableCollection<T> watchable, ItemMoveChange<T> change);
     public delegate void WatchableSortHandler<T>(IWatchableCollection<T> watchable, IEnumerable<ItemMoveChange<T>> changes);
+    public delegate void WatchableClearHandler<T>(IWatchableCollection<T> watchable, IEnumerable<ItemAddRemoveChange<T>> changes);
+    public delegate void WatchableItemsSetHandler<T>(IWatchableCollection<T> watchable, ItemsSetChange<T> change);
 
     public interface IWatchableCollection
     {
@@ -32,6 +36,12 @@ namespace StoreSystem
 
         event WatchableSortHandler ItemsSorting;
         event WatchableSortHandler ItemsSorted;
+
+        event WatchableClearHandler ItemsClearing;
+        event WatchableClearHandler ItemsCleared;
+
+        event WatchableItemsSetHandler ItemsSetting;
+        event WatchableItemsSetHandler ItemsSet;
     }
 
     public interface IWatchableCollection<T>
@@ -47,6 +57,12 @@ namespace StoreSystem
 
         event WatchableItemMoveHandler<T> ItemMoving;
         event WatchableItemMoveHandler<T> ItemMoved;
+
+        event WatchableClearHandler<T> ItemsClearing;
+        event WatchableClearHandler<T> ItemsCleared;
+
+        event WatchableItemsSetHandler<T> ItemsSetting;
+        event WatchableItemsSetHandler<T> ItemsSet;
     }
 
     public struct ItemMoveChange
@@ -89,6 +105,18 @@ namespace StoreSystem
         }
     }
 
+    public struct ItemsSetChange
+    {
+        public IEnumerable<object> NewItems { get; private set; }
+        public IEnumerable<object> OldItems { get; private set; }
+
+        public ItemsSetChange(IEnumerable<object> newItems, IEnumerable<object> oldItems)
+        {
+            NewItems = newItems;
+            OldItems = oldItems;
+        }
+    }
+
     public struct ItemAddRemoveChange<T>
     {
         public int Index { get; private set; }
@@ -126,6 +154,18 @@ namespace StoreSystem
             Index = index;
             ToReplace = toReplace;
             ReplaceWith = replaceWith;
+        }
+    }
+
+    public struct ItemsSetChange<T>
+    {
+        public IEnumerable<T> NewItems { get; private set; }
+        public IEnumerable<T> OldItems { get; private set; }
+
+        public ItemsSetChange(IEnumerable<T> newItems, IEnumerable<T> oldItems)
+        {
+            NewItems = newItems;
+            OldItems = oldItems;
         }
     }
 }

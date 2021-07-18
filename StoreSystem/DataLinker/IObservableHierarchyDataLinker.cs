@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StoreSystem
+namespace DataStore
 {
     public delegate void WatchableHierarchyDataLinkAddHandler<T1, T2>(IObservableHierarchyDataLinker<T1, T2> watchable, HierarchyLinkAddChange<T1, T2> change);
     public delegate void WatchableHierarchyDataLinkRemoveParentHandler<T1, T2>(IObservableHierarchyDataLinker<T1, T2> watchable, HierarchyLinkRemoveParentChange<T1, T2> change);

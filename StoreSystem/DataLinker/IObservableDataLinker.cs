@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace StoreSystem
+namespace DataStore
 {
     // Two differing types
     public delegate void WatchableDataLinkAddHandler<T1, T2>(IObservableDataLinker<T1, T2> watchable, LinkAddRemoveChange<T1, T2> change);

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace StoreSystem
+namespace DataStore
 {
     public class ObservableList<T> : ICollection<T>, IEnumerable<T>, IEnumerable, IList<T>, IReadOnlyCollection<T>, IReadOnlyList<T>, IWatchableCollection<T>
     {
@@ -21,13 +22,29 @@ namespace StoreSystem
         public event WatchableSortHandler<T> ItemsSorting;
         public event WatchableSortHandler<T> ItemsSorted;
 
-        private List<T> _wrappedList = new List<T>();
+        public event WatchableClearHandler<T> ItemsClearing;
+        public event WatchableClearHandler<T> ItemsCleared;
+
+        public event WatchableItemsSetHandler<T> ItemsSetting;
+        public event WatchableItemsSetHandler<T> ItemsSet;
+
+        private List<T> _wrappedList;
 
         public T this[int index] { get => _wrappedList[index]; set => _wrappedList[index] = value; }
 
         public int Count => _wrappedList.Count;
 
         public bool IsReadOnly => false;
+
+        public ObservableList()
+        {
+            _wrappedList = new List<T>();
+        }
+
+        public ObservableList(IEnumerable<T> collection)
+        {
+            _wrappedList = new List<T>(collection);
+        }
 
         public void Add(T item)
         {
@@ -48,15 +65,17 @@ namespace StoreSystem
 
         public void Clear()
         {
-            var removalList = new List<T>(_wrappedList);
-            foreach (var item in removalList)
+            var changes = new List<ItemAddRemoveChange<T>>();
+
+            for (int index = 0; index < _wrappedList.Count; index++)
             {
-                int index = _wrappedList.IndexOf(item);
-                var change = new ItemAddRemoveChange<T>(index, item);
-                ItemRemoving?.Invoke(this, change);
-                _wrappedList.Clear();
-                ItemRemoved?.Invoke(this, change);
+                var item = _wrappedList[index];
+                changes.Add(new ItemAddRemoveChange<T>(index, item));
             }
+
+            ItemsClearing?.Invoke(this, changes);
+            _wrappedList.Clear();
+            ItemsCleared?.Invoke(this, changes);
         }
 
         public bool Remove(T item)
@@ -169,6 +188,14 @@ namespace StoreSystem
             ItemsSorting?.Invoke(this, changes);
             _wrappedList = sorted;
             ItemsSorted?.Invoke(this, changes);
+        }
+
+        public void SetItems(IEnumerable<T> items)
+        {
+            ItemsSetting?.Invoke(this, new ItemsSetChange<T>(items, _wrappedList));
+            _wrappedList.Clear();
+            _wrappedList.AddRange(items);
+            ItemsSet?.Invoke(this, new ItemsSetChange<T>(items, _wrappedList));
         }
 
         public bool Contains(T item)

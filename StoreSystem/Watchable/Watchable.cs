@@ -1,4 +1,4 @@
-﻿namespace StoreSystem
+﻿namespace DataStore
 {
     public class Watchable<T> : IWatchable<T>
     {

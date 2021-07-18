@@ -1,4 +1,4 @@
-﻿namespace StoreSystem
+﻿namespace DataStore
 {
     public delegate void WatchableChanging(IWatchable watchable, object newValue, object oldValue);
     public delegate void WatchableChanged(IWatchable watchable, object newValue, object oldValue);

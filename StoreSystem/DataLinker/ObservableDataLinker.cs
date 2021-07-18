@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace StoreSystem
+namespace DataStore
 {
     /// <summary>
     /// Links objects of different types to each other in n:m multiplicity. 

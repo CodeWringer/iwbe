@@ -1,4 +1,4 @@
-﻿namespace StoreSystem
+﻿namespace DataStore
 {
     public class WatchableCollection<T> : IWatchable, IWatchableCollection<T>
     {
@@ -6,16 +6,25 @@
         public event WatchableChanged Changed;
 
         public event WatchableItemAddHandler<T> ItemAdding;
-        public event WatchableItemRemoveHandler<T> ItemRemoving;
-        public event WatchableItemReplaceHandler<T> ItemReplacing;
-        public event WatchableItemMoveHandler<T> ItemMoving;
-        public event WatchableSortHandler<T> ItemsSorting;
-
         public event WatchableItemAddHandler<T> ItemAdded;
+
+        public event WatchableItemRemoveHandler<T> ItemRemoving;
         public event WatchableItemRemoveHandler<T> ItemRemoved;
-        public event WatchableItemReplaceHandler<T> ItemReplaced;
+
+        public event WatchableItemMoveHandler<T> ItemMoving;
         public event WatchableItemMoveHandler<T> ItemMoved;
+
+        public event WatchableItemReplaceHandler<T> ItemReplacing;
+        public event WatchableItemReplaceHandler<T> ItemReplaced;
+
+        public event WatchableSortHandler<T> ItemsSorting;
         public event WatchableSortHandler<T> ItemsSorted;
+
+        public event WatchableClearHandler<T> ItemsClearing;
+        public event WatchableClearHandler<T> ItemsCleared;
+
+        public event WatchableItemsSetHandler<T> ItemsSetting;
+        public event WatchableItemsSetHandler<T> ItemsSet;
 
         private ObservableList<T> _observable;
         public ObservableList<T> Collection
@@ -26,7 +35,7 @@
                 var oldValue = _observable;
                 Changing?.Invoke(this, value, oldValue);
                 _observable = value;
-                Changed?.Invoke(this, Collection, oldValue);
+                Changed?.Invoke(this, value, oldValue);
             }
         }
 
@@ -48,6 +57,12 @@
             // Sort
             _observable.ItemsSorting += (ob, changes) => { ItemsSorting?.Invoke(this, changes); };
             _observable.ItemsSorted += (ob, changes) => { ItemsSorted?.Invoke(this, changes); };
+            // Clear
+            _observable.ItemsClearing += (ob, changes) => { ItemsClearing?.Invoke(this, changes); };
+            _observable.ItemsCleared += (ob, changes) => { ItemsCleared?.Invoke(this, changes); };
+            // SetItems
+            _observable.ItemsSetting += (ob, changes) => { ItemsSetting?.Invoke(this, changes); };
+            _observable.ItemsSet += (ob, changes) => { ItemsSet?.Invoke(this, changes); };
         }
     }
 }

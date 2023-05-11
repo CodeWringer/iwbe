@@ -1,0 +1,92 @@
+[gd_scene load_steps=10 format=3 uid="uid://6qsv5r7xi1pq"]
+
+[ext_resource type="StyleBox" path="res://presentation/textures/panel_flat/panel_flat_dark_1.tres" id="1_owsh1"]
+[ext_resource type="Script" path="res://presentation/views/workspace/WorkspaceBar.gd" id="1_x1ujr"]
+[ext_resource type="StyleBox" path="res://presentation/textures/button_light/btn_light_normal.tres" id="2_kcltw"]
+[ext_resource type="Texture2D" uid="uid://e0fkpgfmcgvt" path="res://presentation/img/worldpaint_01x256.png" id="2_vj2yu"]
+[ext_resource type="StyleBox" path="res://presentation/textures/button_light/btn_light_hover.tres" id="3_hl31o"]
+[ext_resource type="Texture2D" uid="uid://w1utys2mcdr" path="res://presentation/img/doc-01.svg" id="3_npphv"]
+[ext_resource type="StyleBox" path="res://presentation/textures/button_light/btn_light_pressed.tres" id="4_bkqf0"]
+[ext_resource type="StyleBox" uid="uid://c64p0syjys3mb" path="res://presentation/textures/button_light/btn_light_disabled.tres" id="5_4r6nd"]
+[ext_resource type="StyleBox" path="res://presentation/textures/button_light/btn_light_focus.tres" id="6_0eiml"]
+
+[node name="WorkspaceBar" type="Control"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 3
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 64.0
+grow_vertical = 2
+script = ExtResource("1_x1ujr")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_owsh1")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="ButtonWorkspaceCanvas" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_kcltw")
+theme_override_styles/hover = ExtResource("3_hl31o")
+theme_override_styles/pressed = ExtResource("4_bkqf0")
+theme_override_styles/disabled = ExtResource("5_4r6nd")
+theme_override_styles/focus = ExtResource("6_0eiml")
+disabled = true
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ButtonWorkspaceCanvas"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/ButtonWorkspaceCanvas/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_vj2yu")
+expand_mode = 2
+
+[node name="ButtonWorkspaceArticles" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("2_kcltw")
+theme_override_styles/hover = ExtResource("3_hl31o")
+theme_override_styles/pressed = ExtResource("4_bkqf0")
+theme_override_styles/disabled = ExtResource("5_4r6nd")
+theme_override_styles/focus = ExtResource("6_0eiml")
+disabled = true
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ButtonWorkspaceArticles"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/ButtonWorkspaceArticles/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("3_npphv")
+expand_mode = 2

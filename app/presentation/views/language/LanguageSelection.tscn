@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://nhc8qug560fa"]
+
+[ext_resource type="StyleBox" uid="uid://dtja3go45orlg" path="res://presentation/textures/button_normal/btn_normal_normal.tres" id="1_lsxep"]
+[ext_resource type="StyleBox" path="res://presentation/textures/button_normal/btn_normal_pressed.tres" id="2_afras"]
+[ext_resource type="StyleBox" path="res://presentation/textures/button_normal/btn_normal_hover.tres" id="3_ec3ig"]
+[ext_resource type="StyleBox" uid="uid://bm5rod2ypiumy" path="res://presentation/textures/button_normal/btn_normal_disabled.tres" id="4_ys58w"]
+[ext_resource type="StyleBox" path="res://presentation/textures/button_normal/btn_normal_focus.tres" id="5_vnwfv"]
+[ext_resource type="Texture2D" uid="uid://ydkex6n86ert" path="res://presentation/img/sandwich-handle-01.svg" id="6_1cr3k"]
+
+[node name="LanguageSelection" type="HBoxContainer"]
+theme_override_constants/separation = 0
+
+[node name="ButtonSelectLanguage" type="OptionButton" parent="."]
+custom_minimum_size = Vector2(128, 32)
+layout_mode = 2
+
+[node name="ButtonConfigureLanguages" type="MenuButton" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+theme_override_styles/normal = ExtResource("1_lsxep")
+theme_override_styles/pressed = ExtResource("2_afras")
+theme_override_styles/hover = ExtResource("3_ec3ig")
+theme_override_styles/disabled = ExtResource("4_ys58w")
+theme_override_styles/focus = ExtResource("5_vnwfv")
+flat = false
+
+[node name="MarginContainer" type="MarginContainer" parent="ButtonConfigureLanguages"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TextureRect" type="TextureRect" parent="ButtonConfigureLanguages/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("6_1cr3k")
+expand_mode = 2

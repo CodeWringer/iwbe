@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=3 uid="uid://chbs5wtxmtfe0"]
+
+[ext_resource type="PackedScene" uid="uid://cl5by0dchfwxa" path="res://presentation/views/workspace/article/ArticleEditor.tscn" id="1_vaoqe"]
+[ext_resource type="StyleBox" path="res://presentation/textures/panel_flat/panel_flat.tres" id="1_xh085"]
+[ext_resource type="StyleBox" uid="uid://bygkbcbjn0nur" path="res://presentation/textures/panel_flat/panel_flat_header.tres" id="2_kjaaq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dbba2"]
+
+[node name="ArticleWorkspace" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="AssetsSideBar" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="HBoxContainer/AssetsSideBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_xh085")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/AssetsSideBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/AssetsSideBar/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("2_kjaaq")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/AssetsSideBar/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+
+[node name="Label" type="Label" parent="HBoxContainer/AssetsSideBar/VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+text = "Project Assets"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/AssetsSideBar/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Tree" type="Tree" parent="HBoxContainer/AssetsSideBar/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxEmpty_dbba2")
+
+[node name="ArticleEditor" parent="HBoxContainer" instance=ExtResource("1_vaoqe")]
+layout_mode = 2
+size_flags_horizontal = 3

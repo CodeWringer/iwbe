@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://c86q66qhsoevk"]
+
+[ext_resource type="StyleBox" uid="uid://bygkbcbjn0nur" path="res://presentation/textures/panel_flat/panel_flat_header.tres" id="1_a1aql"]
+
+[node name="ProjectList" type="Control"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 3
+anchors_preset = 0
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_a1aql")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+
+[node name="Label" type="Label" parent="VBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+text = "Recent Projects"
+
+[node name="List" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0

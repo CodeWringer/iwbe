@@ -1,0 +1,16 @@
+<Project Sdk="Godot.NET.Sdk/4.0.2">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RootNamespace>iwbe</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="addons\**" />
+    <Compile Remove="business\dataaccess\example\**" />
+    <EmbeddedResource Remove="addons\**" />
+    <EmbeddedResource Remove="business\dataaccess\example\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Utf8Json" Version="1.3.7" />
+  </ItemGroup>
+</Project>

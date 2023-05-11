@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://cl5by0dchfwxa"]
+
+[ext_resource type="PackedScene" uid="uid://nhc8qug560fa" path="res://presentation/views/language/LanguageSelection.tscn" id="1_t1fv1"]
+
+[node name="ArticleEditor" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LanguageSelection" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_t1fv1")]
+layout_mode = 2

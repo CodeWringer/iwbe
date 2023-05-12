@@ -12,7 +12,7 @@ namespace iwbe.business.dataaccess.util
         /// <summary>
         /// Regex to detect the validity of a file path's format. 
         /// </summary>
-        private static Regex rgxFilePath = new Regex("^(((user|ref)://)|([a-zA-Z]:[/\\\\])|~/?)([\\w\\s]+/)*([\\w\\s]+(\\.[\\w\\s]+)?)$");
+        private static readonly Regex rgxFilePath = new Regex("^(((user|ref)://)|([a-zA-Z]:[/\\\\])|~/?)([\\w\\s]+/)*([\\w\\s]+(\\.[\\w\\s]+)?)$");
 
         /// <summary>
         /// Godot specific path prefix for user-specific files. The exact location in the file system this resolves to, depends on 

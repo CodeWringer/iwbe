@@ -52,7 +52,7 @@ namespace iwbe.business.actionhistory.command
         /// targets an item that no longer exists and is therefore no longer valid. 
         /// </summary>
         /// <param name="command">The command to execute and memorize. </param>
-        public void InvokeAndPush(IReversibleCommand command)
+        public void Record(IReversibleCommand command)
         {
             command.Invoke();
             Reversible.Push(command);
@@ -62,7 +62,7 @@ namespace iwbe.business.actionhistory.command
         /// <summary>
         /// Reverses the last made command and returns it. Returns null, if there is no command to reverse. 
         /// </summary>
-        /// <returns>The command that was "undone". </returns>
+        /// <returns>The command that was "undone" or null. </returns>
         public IReversibleCommand Undo()
         {
             if (Reversible.Count == 0)
@@ -78,7 +78,7 @@ namespace iwbe.business.actionhistory.command
         /// <summary>
         /// Re-applies the last command that was reversed and returns it. Returns null, if there is no command to re-apply. 
         /// </summary>
-        /// <returns>The command that was re-applied. </returns>
+        /// <returns>The command that was re-applied or null. </returns>
         public IReversibleCommand Redo()
         {
             if (Reversed.Count == 0)
@@ -92,7 +92,7 @@ namespace iwbe.business.actionhistory.command
         }
 
         /// <summary>
-        /// Clears all history, without reversing or re-applying anything. 
+        /// Discards all history. 
         /// </summary>
         public void Clear()
         {
@@ -101,7 +101,7 @@ namespace iwbe.business.actionhistory.command
         }
 
         /// <summary>
-        /// Clears all reversible history. 
+        /// Discards all reversible history. 
         /// </summary>
         public void ClearReversible()
         {
@@ -109,7 +109,7 @@ namespace iwbe.business.actionhistory.command
         }
 
         /// <summary>
-        /// Clears all reversed history. 
+        /// Discards all reversed history. 
         /// </summary>
         public void ClearReversed()
         {

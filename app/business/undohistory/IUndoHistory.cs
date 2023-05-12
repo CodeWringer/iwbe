@@ -7,6 +7,12 @@ namespace iwbe.business.actionhistory
     public interface IUndoHistory<T>
     {
         /// <summary>
+        /// Records the given reversible command/state. 
+        /// </summary>
+        /// <param name="item">A reversible command/state to record. </param>
+        void Record(T item);
+
+        /// <summary>
         /// Reverses the last made command/state and returns it. Returns null, if there is nothing reverse. 
         /// </summary>
         /// <returns>The command/state that was "undone". </returns>

@@ -57,9 +57,20 @@ namespace iwbe.business.actionhistory.state
         /// <br></br>
         /// A new snapshot is meant to be taken after every alteration of the model state. 
         /// </summary>
-        public void TakeSnapshot()
+        public void Record()
         {
             T cloned = _state.Clone();
+            Reversible.Push(cloned);
+        }
+
+        /// <summary>
+        /// Pushes a new snapshot of the given ApplicationState to the stack. 
+        /// <br></br>
+        /// A new snapshot is meant to be taken after every alteration of the model state. 
+        /// </summary>
+        public void Record(T state)
+        {
+            T cloned = state.Clone();
             Reversible.Push(cloned);
         }
 

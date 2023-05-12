@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dq2u6juqu8msv"]
+[gd_scene load_steps=3 format=3 uid="uid://dq2u6juqu8msv"]
 
 [ext_resource type="StyleBox" path="res://presentation/textures/panel_flat/panel_flat_dark_2.tres" id="1_180kw"]
+[ext_resource type="Script" path="res://presentation/views/menu/MainMenuBar.cs" id="1_qgi60"]
 
 [node name="MainMenuBar" type="Control"]
 custom_minimum_size = Vector2(0, 32)
@@ -8,6 +9,7 @@ layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
+script = ExtResource("1_qgi60")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -26,7 +28,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MenuButton" type="MenuButton" parent="MenuBar"]
+[node name="MenuButtonProject" type="MenuButton" parent="MenuBar"]
 layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0

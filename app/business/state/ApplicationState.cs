@@ -5,6 +5,9 @@ using System.IO;
 using iwbe.business.model;
 using iwbe.business.exception;
 using iwbe.business.dataaccess.applicationsettings;
+using iwbe.business.util.watchable;
+using iwbe.business.actionhistory.command;
+using iwbe.business.command;
 
 namespace iwbe.business.state
 {
@@ -13,25 +16,46 @@ namespace iwbe.business.state
     /// <br></br>
     /// It contains all root-level business data. 
     /// </summary>
-    public partial class ApplicationState : AbstractApplicationState<ApplicationState>
+    public partial class ApplicationState : AbstractApplicationState<ApplicationState>, IWatchable
     {
+        public event WatchableChangeHandler Changed;
+
         /// <summary>
-        /// General application settings. 
+        /// Global application settings. 
         /// </summary>
-        public ApplicationSettings Settings { get; private set; }
+        public Watchable<ApplicationSettings> Settings { get; private set; } = new();
+
+        /// <summary>
+        /// The currently loaded project. 
+        /// </summary>
+        public Watchable<Project> Project { get; private set; } = new();
+
+        /// <summary>
+        /// Represents the "undo-history", applicable to the <b>currently loaded project</b>. 
+        /// </summary>
+        public CommandHistory UndoHistory { get; private set; } = new();
+
+        /// <summary>
+        /// Central point of communication of commands that alter application state in any way. 
+        /// </summary>
+        public CommandDispatcher CommandDispatcher { get; private set; } = new();
 
         public ApplicationState()
         {
+            // Load settings from disk, if possible. Else, instantiate default settings. 
             var repository = new ApplicationSettingsRepository();
             try
             {
-                Settings = repository.Read();
+                Settings .Value= repository.Read();
             }
             catch (FileNotFoundException)
             {
-                Settings = new ApplicationSettings();
-                repository.Write(Settings);
+                Settings.Value = new ApplicationSettings();
+                repository.Write(Settings.Value);
             }
+
+            Settings.Changed += ChildWatchable_Changed;
+            Project.Changed += ChildWatchable_Changed;
         }
 
         /// <summary>
@@ -58,10 +82,19 @@ namespace iwbe.business.state
 
         public override ApplicationState Clone()
         {
-            return new ApplicationState()
-            {
-                Settings = this.Settings.Clone()
-            };
+            var clone = new ApplicationState();
+            clone.Settings.Value = clone.Settings.Value.Clone();
+
+            return clone;
+        }
+
+        /// <summary>
+        /// Passes through child watchable Changed event invocations. 
+        /// </summary>
+        /// <param name="watchable"></param>
+        private void ChildWatchable_Changed(IWatchable watchable)
+        {
+            Changed?.Invoke(watchable);
         }
     }
 }

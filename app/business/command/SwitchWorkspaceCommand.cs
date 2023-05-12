@@ -1,11 +1,10 @@
-﻿using iwbe.business.state;
-using System;
+﻿using System;
 
 namespace iwbe.business.command
 {
     internal class SwitchWorkspaceCommand : ICommand
     {
-        public void Invoke(ApplicationState state)
+        public void Invoke()
         {
             throw new NotImplementedException();
         }

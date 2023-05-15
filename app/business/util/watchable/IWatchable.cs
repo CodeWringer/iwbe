@@ -3,8 +3,8 @@
     /// <summary>
     /// Handles an event of a watchable's value being modified. 
     /// </summary>
-    /// <param name="watchable">The instance that was modified. </param>
-    public delegate void WatchableChangeHandler(IWatchable watchable);
+    /// <param name="args">The instance that was modified. </param>
+    public delegate void WatchableChangeHandler(WatchableChangedEventArgs args);
 
     /// <summary>
     /// Marks a type whose field changes can be watched for through this interface. 

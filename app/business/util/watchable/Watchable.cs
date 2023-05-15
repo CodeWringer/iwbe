@@ -34,8 +34,9 @@
                 {
                     newChildWatchable.Changed += ChildWatchable_Changed;
                 }
+                var oldValue = _value;
                 _value = value;
-                Changed?.Invoke(this);
+                Changed?.Invoke(new WatchableFieldChangedEventArgs<T>(this, oldValue, value));
             }
         }
 
@@ -45,10 +46,10 @@
         /// This way, deeply nested watchables changing can always be watched out for, without needing 
         /// to subscribe to each one. So in a way, the Changed event "bubbles up". 
         /// </summary>
-        /// <param name="watchable"></param>
-        private void ChildWatchable_Changed(IWatchable watchable)
+        /// <param name="args"></param>
+        private void ChildWatchable_Changed(WatchableChangedEventArgs args)
         {
-            Changed?.Invoke(watchable);
+            Changed?.Invoke(args);
         }
     }
 }

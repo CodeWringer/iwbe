@@ -91,10 +91,10 @@ namespace iwbe.business.state
         /// <summary>
         /// Passes through child watchable Changed event invocations. 
         /// </summary>
-        /// <param name="watchable"></param>
-        private void ChildWatchable_Changed(IWatchable watchable)
+        /// <param name="args"></param>
+        private void ChildWatchable_Changed(WatchableChangedEventArgs args)
         {
-            Changed?.Invoke(watchable);
+            Changed?.Invoke(args);
         }
     }
 }

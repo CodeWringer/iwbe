@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iwbe.business.util.watchable;
+using System;
 using System.Collections.Generic;
 
 namespace iwbe.business.model
@@ -6,8 +7,10 @@ namespace iwbe.business.model
     /// <summary>
     /// Represents a project. 
     /// </summary>
-    public class Project : IEquatable<Project>
+    public class Project : IEquatable<Project>, IWatchable
     {
+        public event WatchableChangeHandler Changed;
+
         /// <summary>
         /// The project's metadata, which uniquely identifies it. 
         /// </summary>
@@ -16,7 +19,7 @@ namespace iwbe.business.model
         /// <summary>
         /// Name of the last opened workspace, e. g. "Canvas" or "Writing". 
         /// </summary>
-        public string LastWorkspace;
+        public Watchable<string> LastWorkspace { get; private set; } = new();
 
         /// <summary>
         /// List of strings, representing project-relative file paths, of the articles still open when the editor/project was closed.

@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://hr5u5ri72rmq"]
+[gd_scene load_steps=4 format=3 uid="uid://hr5u5ri72rmq"]
 
 [ext_resource type="Script" path="res://presentation/views/Main.cs" id="1"]
 [ext_resource type="PackedScene" uid="uid://dq2u6juqu8msv" path="res://presentation/views/menu/MainMenuBar.tscn" id="2_cfslr"]
 [ext_resource type="PackedScene" uid="uid://6qsv5r7xi1pq" path="res://presentation/views/workspace/WorkspaceBar.tscn" id="3_tjrn0"]
-[ext_resource type="PackedScene" uid="uid://c8yts0fdk0ydh" path="res://presentation/views/Startup.tscn" id="4_eyu4b"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -42,10 +41,7 @@ theme_override_constants/separation = 0
 [node name="WorkspaceBar" parent="VBoxContainer/HBoxContainer" instance=ExtResource("3_tjrn0")]
 layout_mode = 2
 
-[node name="WorkspaceViewport" type="Control" parent="VBoxContainer/HBoxContainer"]
+[node name="MainViewport" type="Control" parent="VBoxContainer/HBoxContainer"]
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="Startup" parent="VBoxContainer/HBoxContainer/WorkspaceViewport" instance=ExtResource("4_eyu4b")]
-layout_mode = 1

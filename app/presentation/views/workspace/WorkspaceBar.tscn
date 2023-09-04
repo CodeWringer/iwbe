@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://6qsv5r7xi1pq"]
 
 [ext_resource type="StyleBox" path="res://presentation/textures/panel_flat/panel_flat_dark_1.tres" id="1_owsh1"]
-[ext_resource type="Script" path="res://presentation/views/workspace/WorkspaceBar.gd" id="1_x1ujr"]
+[ext_resource type="Script" path="res://presentation/views/workspace/WorkspaceBar.cs" id="1_v4bau"]
 [ext_resource type="StyleBox" path="res://presentation/textures/button_light/btn_light_normal.tres" id="2_kcltw"]
-[ext_resource type="Texture2D" uid="uid://e0fkpgfmcgvt" path="res://presentation/img/worldpaint_01x256.png" id="2_vj2yu"]
+[ext_resource type="Texture2D" uid="uid://y8m3bti7o7ml" path="res://presentation/img/worldpaint_01x256.png" id="2_vj2yu"]
 [ext_resource type="StyleBox" path="res://presentation/textures/button_light/btn_light_hover.tres" id="3_hl31o"]
-[ext_resource type="Texture2D" uid="uid://w1utys2mcdr" path="res://presentation/img/doc-01.svg" id="3_npphv"]
+[ext_resource type="Texture2D" uid="uid://xw82bg72c2gf" path="res://presentation/img/doc-01.svg" id="3_npphv"]
 [ext_resource type="StyleBox" path="res://presentation/textures/button_light/btn_light_pressed.tres" id="4_bkqf0"]
 [ext_resource type="StyleBox" uid="uid://c64p0syjys3mb" path="res://presentation/textures/button_light/btn_light_disabled.tres" id="5_4r6nd"]
 [ext_resource type="StyleBox" path="res://presentation/textures/button_light/btn_light_focus.tres" id="6_0eiml"]
@@ -17,7 +17,7 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 64.0
 grow_vertical = 2
-script = ExtResource("1_x1ujr")
+script = ExtResource("1_v4bau")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1

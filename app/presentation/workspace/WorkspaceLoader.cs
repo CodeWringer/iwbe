@@ -1,4 +1,5 @@
 ﻿using Godot;
+using iwbe.presentation.views;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -36,7 +37,7 @@ namespace iwbe.presentation.workspace
         {
             foreach (var kv in _workspaces)
             {
-                var packedScene = ResourceLoader.Load<PackedScene>("res://" + kv.Key.ResourceUrlView);
+                var packedScene = ViewLoader.Load(kv.Key.ResourceUrlView);
                 _workspaces[kv.Key] = packedScene;
             }
         }

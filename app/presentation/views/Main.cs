@@ -5,17 +5,13 @@ using iwbe.presentation.workspace;
 using iwbe.presentation.workspace.workspaces;
 using System.Linq;
 using iwbe.business.command;
+using iwbe.presentation.navigation;
 
 /// <summary>
 /// The entry point to the application. Script of the main node. 
 /// </summary>
 public partial class Main : Control
 {
-	/// <summary>
-	/// The node beneath which the currently active workspace is placed. 
-	/// </summary>
-	private Control _mainViewPort;
-
 	/// <summary>
 	/// Loads workspace resources. 
 	/// </summary>
@@ -31,41 +27,26 @@ public partial class Main : Control
 	/// </summary>
 	public ApplicationCommandBus CommandBus { get; private set; }
 
+	/// <summary>
+	/// The node beneath which the currently active workspace is placed. 
+	/// </summary>
+	public Control MainViewPort { get; private set; }
+
+	/// <summary>
+	/// Allows and handles view navigation. Used to activate workspaces and dialogs and navigate within them. 
+	/// </summary>
+	public ViewNavigator Navigator { get; private set; }
+
 	public override void _Ready()
 	{
 		State = ApplicationState.GetFromSceneTree(this);
-		_mainViewPort = GetNode("VBoxContainer/HBoxContainer/MainViewport") as Control;
+		MainViewPort = GetNode("VBoxContainer/HBoxContainer/MainViewport") as Control;
 
 		CommandBus = new ApplicationCommandBus();
+		Navigator = new ViewNavigator(this, MainViewPort);
 
         _workspaceLoader = new WorkspaceLoader();
 		_workspaceLoader.Register(new ArticleWorkspace());
 		_workspaceLoader.Load();
     }
-
-    /// <summary>
-    /// Replaces the current view with the given view. 
-    /// </summary>
-    /// <param name="workspaceName">Name of the workspace to activate. </param>
-    /// <exception cref="Exception">Thrown, if no workspace with the given name exists. </exception>
-    public void SetView(string workspaceName)
-	{
-		var workspaceKv = _workspaceLoader.Workspaces.Where(it => it.Key.Name.Equals(workspaceName, StringComparison.InvariantCultureIgnoreCase)).FirstOrDefault();
-
-		if (workspaceKv.Key == null)
-		{
-			throw new Exception("Bad view name: " + workspaceName);
-		}
-
-		// First, remove any current children. 
-		var toRemove = _mainViewPort.GetChildren();
-		for (int i = toRemove.Count - 1; i >= 0; i--)
-		{
-			_mainViewPort.RemoveChild(toRemove[i]);
-		}
-
-		// Next, set up a new child for the corresponding workspace. 
-		var instance = workspaceKv.Value.Instantiate();
-		_mainViewPort.AddChild(instance);
-	}
 }

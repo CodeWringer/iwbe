@@ -1,0 +1,69 @@
+[gd_scene load_steps=4 format=3 uid="uid://bquf48ncqb8w8"]
+
+[ext_resource type="Script" path="res://presentation/views/dialog/CustomDialogWindow.cs" id="1_pokam"]
+[ext_resource type="Texture2D" uid="uid://c2sbqf5nkwe1" path="res://presentation/img/x-01.svg" id="2_fwf56"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_buuu0"]
+bg_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+
+[node name="CustomDialogWindow" type="VBoxContainer"]
+custom_minimum_size = Vector2(400, 300)
+offset_right = 400.0
+offset_bottom = 300.0
+theme_override_constants/separation = 0
+script = ExtResource("1_pokam")
+
+[node name="DialogMenuBar" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="DialogMenuBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_buuu0")
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogMenuBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="DialogMenuBar/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Title" type="Label" parent="DialogMenuBar/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Title"
+
+[node name="CancelButton" type="Button" parent="DialogMenuBar/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogMenuBar/MarginContainer/HBoxContainer/CancelButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="TextureRect" type="TextureRect" parent="DialogMenuBar/MarginContainer/HBoxContainer/CancelButton/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_fwf56")
+expand_mode = 1

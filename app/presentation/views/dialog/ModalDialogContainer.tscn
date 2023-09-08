@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://c70n8wp0nyill"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ngljp"]
+bg_color = Color(0, 0, 0, 0.196078)
+
+[node name="ModalDialogContainer" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ngljp")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 2

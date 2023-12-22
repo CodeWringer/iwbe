@@ -15,7 +15,6 @@ var project_path: String
 @onready var path_label: Label = get_node("Button/HBoxContainer/CenterContainer2/LabelPath")
 
 func _init(id, name, path):
-	super()
 	project_id = id
 	project_name = name
 	project_path = path

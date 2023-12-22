@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c86q66qhsoevk"]
+[gd_scene load_steps=3 format=3 uid="uid://c86q66qhsoevk"]
 
 [ext_resource type="StyleBox" uid="uid://bygkbcbjn0nur" path="res://presentation/textures/panel_flat/panel_flat_header.tres" id="1_a1aql"]
+[ext_resource type="Script" path="res://presentation/views/workspace/project/ProjectList.cs" id="1_rjplt"]
 
 [node name="ProjectList" type="Control"]
 custom_minimum_size = Vector2(0, 32)
@@ -11,6 +12,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
+script = ExtResource("1_rjplt")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1

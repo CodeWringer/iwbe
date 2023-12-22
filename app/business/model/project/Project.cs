@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iwbe.common.observables;
+using System;
 using System.Collections.Generic;
 
 namespace iwbe.business.model
@@ -6,8 +7,10 @@ namespace iwbe.business.model
     /// <summary>
     /// Represents a project. 
     /// </summary>
-    public class Project : IEquatable<Project>
+    public class Project : IEquatable<Project>, IObservableData
     {
+        public event IObservableData.onChangedHandler OnChanged;
+
         /// <summary>
         /// The project's metadata, which uniquely identifies it. 
         /// </summary>
@@ -50,14 +53,7 @@ namespace iwbe.business.model
 
         public Project(string name, Guid id, string pathOnDisk, DateTime creationDate, DateTime lastEditDate)
         {
-            ID = new ProjectId()
-            {
-                Name = name,
-                ID = id,
-                PathOnDisk = pathOnDisk,
-                CreationDate = creationDate,
-                LastEditDate = lastEditDate
-            };
+            ID = new ProjectId(name, pathOnDisk, id, creationDate, lastEditDate);
         }
 
         public Project(string name, Guid id, string pathOnDisk)
@@ -77,7 +73,7 @@ namespace iwbe.business.model
 
         public override int GetHashCode()
         {
-            throw new NotImplementedException();
+            return this.ID.GetHashCode();
         }
     }
 }

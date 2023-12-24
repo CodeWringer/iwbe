@@ -35,7 +35,10 @@ theme_override_constants/margin_left = 4
 layout_mode = 2
 text = "Recent Projects"
 
-[node name="List" type="VBoxContainer" parent="VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="List" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 0

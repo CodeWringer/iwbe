@@ -23,7 +23,7 @@ namespace iwbe.business.model
         /// <summary>
         /// UUID to identify the project, even if it is renamed. 
         /// </summary>
-        public ObservableField<Guid> ID;
+        public Guid ID;
 
         /// <summary>
         /// Date and time of creation. 
@@ -38,19 +38,34 @@ namespace iwbe.business.model
         public ProjectId()
         {
             Name = new ObservableField<string>();
+            Name.OnChanged += OnChanged;
+
             PathOnDisk = new ObservableField<string>();
-            ID = new ObservableField<Guid>();
+            PathOnDisk.OnChanged += OnChanged;
+
+            ID = new Guid();
+
             CreationDate = new ObservableField<DateTime>();
+            CreationDate.OnChanged += OnChanged;
+
             LastEditDate = new ObservableField<DateTime>();
+            LastEditDate.OnChanged += OnChanged;
         }
 
         public ProjectId(string name, string pathOnDisk, Guid id, DateTime creationDate, DateTime lastEditDate)
         {
             Name = new ObservableField<string>(name);
+            Name.OnChanged += OnChanged;
+
             PathOnDisk = new ObservableField<string>(pathOnDisk);
-            ID = new ObservableField<Guid>(id);
+            PathOnDisk.OnChanged += OnChanged;
+
+            ID = id;
             CreationDate = new ObservableField<DateTime>(creationDate);
+            CreationDate.OnChanged += OnChanged;
+
             LastEditDate = new ObservableField<DateTime>(lastEditDate);
+            LastEditDate.OnChanged += OnChanged;
         }
 
         public bool Equals(ProjectId other)

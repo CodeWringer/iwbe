@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://m6sl3gdmf5u"]
 
+[ext_resource type="Script" path="res://presentation/views/workspace/project/ProjectListItem.cs" id="1_fpn44"]
 [ext_resource type="PackedScene" uid="uid://bqb4clljctdas" path="res://presentation/components/ImageButton/ImageButton.tscn" id="1_m0kxj"]
-[ext_resource type="Script" path="res://presentation/views/workspace/project/ProjectListItem.gd" id="1_mbnsj"]
 [ext_resource type="Texture2D" uid="uid://2hxwovhy761p" path="res://presentation/img/pin-02.svg" id="2_ss7v4"]
 [ext_resource type="Texture2D" uid="uid://cl4q0ku48stuc" path="res://presentation/img/trash-02.svg" id="3_cq8mt"]
 
@@ -11,7 +11,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 8.0
 grow_horizontal = 2
-script = ExtResource("1_mbnsj")
+script = ExtResource("1_fpn44")
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 2

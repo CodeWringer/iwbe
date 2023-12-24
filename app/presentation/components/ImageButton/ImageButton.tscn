@@ -1,12 +1,12 @@
 [gd_scene load_steps=2 format=3 uid="uid://bqb4clljctdas"]
 
-[ext_resource type="Script" path="res://presentation/components/ImageButton/ImageButton.gd" id="1_r28lg"]
+[ext_resource type="Script" path="res://presentation/components/ImageButton/ImageButton.cs" id="1_i71du"]
 
 [node name="ImageButton" type="AspectRatioContainer"]
 custom_minimum_size = Vector2(32, 32)
 offset_right = 8.0
 offset_bottom = 8.0
-script = ExtResource("1_r28lg")
+script = ExtResource("1_i71du")
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 2

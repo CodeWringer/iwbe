@@ -21,30 +21,30 @@ namespace iwbe.business.model
             if (_property == ProjectSortProperties.CreationDate)
             {
                 if (_direction == SortDirections.Ascending)
-                    return x.CreationDate.CompareTo(y.CreationDate);
+                    return x.CreationDate.Value.CompareTo(y.CreationDate);
                 else
-                    return y.CreationDate.CompareTo(x.CreationDate);
+                    return y.CreationDate.Value.CompareTo(x.CreationDate);
             }
             else if (_property == ProjectSortProperties.LastEditDate)
             {
                 if (_direction == SortDirections.Ascending)
-                    return x.LastEditDate.CompareTo(y.LastEditDate);
+                    return x.LastEditDate.Value.CompareTo(y.LastEditDate);
                 else
-                    return y.LastEditDate.CompareTo(x.LastEditDate);
+                    return y.LastEditDate.Value.CompareTo(x.LastEditDate);
             }
             else if (_property == ProjectSortProperties.Path)
             {
                 if (_direction == SortDirections.Ascending)
-                    return x.PathOnDisk.CompareTo(y.PathOnDisk);
+                    return x.PathOnDisk.Value.CompareTo(y.PathOnDisk);
                 else
-                    return y.PathOnDisk.CompareTo(x.PathOnDisk);
+                    return y.PathOnDisk.Value.CompareTo(x.PathOnDisk);
             }
             else
             {
                 if (_direction == SortDirections.Ascending)
-                    return x.Name.CompareTo(y.Name);
+                    return x.Name.Value.CompareTo(y.Name);
                 else
-                    return y.Name.CompareTo(x.Name);
+                    return y.Name.Value.CompareTo(x.Name);
             }
         }
     }

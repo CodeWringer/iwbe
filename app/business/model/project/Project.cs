@@ -19,12 +19,12 @@ namespace iwbe.business.model
         /// <summary>
         /// Name of the last opened workspace, e. g. "Canvas" or "Writing". 
         /// </summary>
-        public string LastWorkspace;
+        public ObservableField<string> LastWorkspace;
 
         /// <summary>
         /// List of strings, representing project-relative file paths, of the articles still open when the editor/project was closed.
         /// </summary>
-        public List<string> LastArticles;
+        public ObservableDataCollection<string> LastArticles;
 
         ///// <summary>
         ///// List of article templates specific to this project (not added to the global list of templates). 
@@ -39,19 +39,36 @@ namespace iwbe.business.model
         /// <summary>
         /// Assets of this project. 
         /// </summary>
-        public ProjectAssets Assets;
+        public ObservableField<ProjectAssets> Assets;
 
         /// <summary>
         /// Content of this project (articles, canvas objects, etc.). 
         /// </summary>
-        public ProjectContent Content;
+        public ObservableField<ProjectContent> Content;
+
+        private Project()
+        {
+            LastWorkspace = new ObservableField<string>();
+            LastWorkspace.OnChanged += OnChanged;
+
+            LastArticles = new ObservableDataCollection<string>();
+            LastArticles.OnChanged += OnChanged;
+
+            Assets = new ObservableField<ProjectAssets>();
+            Assets.OnChanged += OnChanged;
+
+            Content = new ObservableField<ProjectContent>();
+            Content.OnChanged += OnChanged;
+        }
 
         public Project(ProjectId id)
+            : this()
         {
             ID = id;
         }
 
         public Project(string name, Guid id, string pathOnDisk, DateTime creationDate, DateTime lastEditDate)
+            : this()
         {
             ID = new ProjectId(name, pathOnDisk, id, creationDate, lastEditDate);
         }

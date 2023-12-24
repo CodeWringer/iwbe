@@ -1,6 +1,5 @@
-[gd_scene load_steps=3 format=3 uid="uid://c8yts0fdk0ydh"]
+[gd_scene load_steps=2 format=3 uid="uid://c8yts0fdk0ydh"]
 
-[ext_resource type="PackedScene" uid="uid://dq2u6juqu8msv" path="res://presentation/views/menu/MainMenuBar.tscn" id="1_qfy5q"]
 [ext_resource type="PackedScene" uid="uid://c86q66qhsoevk" path="res://presentation/views/workspace/project/ProjectList.tscn" id="1_w6uh2"]
 
 [node name="Startup" type="Control"]
@@ -20,9 +19,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 0
-
-[node name="MainMenuBar" parent="VBoxContainer" instance=ExtResource("1_qfy5q")]
-layout_mode = 2
 
 [node name="ProjectList" parent="VBoxContainer" instance=ExtResource("1_w6uh2")]
 layout_mode = 2

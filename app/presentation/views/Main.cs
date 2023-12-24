@@ -6,6 +6,7 @@ using iwbe.presentation.workspace.workspaces;
 using System.Linq;
 using iwbe.business.command;
 using iwbe.presentation.navigation;
+using iwbe.presentation.common;
 
 /// <summary>
 /// The entry point to the application. Script of the main node. 
@@ -16,6 +17,8 @@ public partial class Main : Control
 	/// Loads workspace resources. 
 	/// </summary>
 	private WorkspaceLoader _workspaceLoader;
+
+	private PackedScene _startupScene = SceneLoader.Load("presentation/views/startup/Startup.tscn");
 
     /// <summary>
     /// A reference to the state object, as fetched from the auto-loaded ApplicationStateNode. 
@@ -48,5 +51,8 @@ public partial class Main : Control
         _workspaceLoader = new WorkspaceLoader();
 		_workspaceLoader.Register(new ArticleWorkspace());
 		_workspaceLoader.Load();
+
+		var startupScene = _startupScene.Instantiate();
+		MainViewPort.AddChild(startupScene);
     }
 }

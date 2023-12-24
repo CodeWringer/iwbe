@@ -1,5 +1,5 @@
 using Godot;
-using iwbe.presentation.views;
+using iwbe.presentation.common;
 using System;
 
 /// <summary>
@@ -11,7 +11,7 @@ using System;
 /// </summary>
 public partial class CustomDialogWindow : VBoxContainer
 {
-    private static readonly PackedScene _modalDialogScene = ViewLoader.Load("presentation/views/dialog/ModalDialogContainer.tscn");
+    private static readonly PackedScene _modalDialogScene = SceneLoader.Load("presentation/views/dialog/ModalDialogContainer.tscn");
 
     private Label _labelTitle;
     private Button _cancelButton;

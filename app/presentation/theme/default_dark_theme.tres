@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://c5fyq3xoyjhit"]
+
+[ext_resource type="FontFile" uid="uid://c40helgx8q60w" path="res://presentation/fonts/OpenSans/OpenSans-Regular.ttf" id="1_786k5"]
+
+[resource]
+default_font = ExtResource("1_786k5")
+default_font_size = 16

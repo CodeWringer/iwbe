@@ -5,6 +5,8 @@ using System.IO;
 using iwbe.business.model;
 using iwbe.business.exception;
 using iwbe.business.dataaccess.applicationsettings;
+using iwbe.common.observables;
+using iwbe.business.dataaccess.common.repository;
 
 namespace iwbe.business.state
 {
@@ -20,6 +22,15 @@ namespace iwbe.business.state
         /// </summary>
         public ApplicationSettings Settings { get; private set; }
 
+        /// <summary>
+        /// Determines whether the application runs in mock mode. 
+        /// </summary>
+        public bool Mock { get; private set; } = true; // TODO: Make dynamic
+
+        public ObservableData<Project> Project { get; private set; } = new ObservableData<Project>();
+
+        public ObservableDataCollection<ProjectId> ProjectIds { get; private set; } = new ObservableDataCollection<ProjectId>();
+
         public ApplicationState()
         {
             var repository = new ApplicationSettingsRepository();
@@ -32,6 +43,22 @@ namespace iwbe.business.state
                 Settings = new ApplicationSettings();
                 repository.Write(Settings);
             }
+
+            try
+            {
+                var projects = new ProjectRepository(Mock).Read();
+                var projectIds = new List<ObservableData<ProjectId>>();
+                foreach (var project in projects)
+                {
+                    var observable = new ObservableData<ProjectId>
+                    {
+                        Value = project.ID
+                    };
+                    projectIds.Add(observable);
+                }
+                ProjectIds.AddRange(projectIds);
+            }
+            catch { }
         }
 
         /// <summary>

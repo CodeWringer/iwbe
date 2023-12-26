@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Xml.Linq;
 
 namespace iwbe.common.observables
 {
@@ -32,48 +34,39 @@ namespace iwbe.common.observables
         ELEMENT,
     }
 
-    /// <summary>
-    /// Abstract base event args class for when any data of the collection changes. 
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public abstract class OnChangedEventArgs<T>
+    public class ChangedEventArgs<T>
     {
         public CollectionChangeTypes ChangeType { get; private set; }
 
-        public OnChangedEventArgs(CollectionChangeTypes changeType)
+        public IEnumerable<ElementChangedEventArgs<T>> Elements { get; private set; }
+
+        public ChangedEventArgs(CollectionChangeTypes changeType, IEnumerable<ElementChangedEventArgs<T>> elements)
         {
             ChangeType = changeType;
+            Elements = elements;
         }
     }
 
-    public class OnChangedElementEventArgs<T> : OnChangedEventArgs<T>
+    public class ElementChangedEventArgs<T>
     {
-        public ObservableField<T> Element { get; private set; }
+        public ObservableData<T> Element { get; private set; }
         
-        public T OldValue { get; private set; }
+        public int OldIndex { get; private set; }
 
-        public T NewValue { get; private set; }
+        public int NewIndex { get; private set; }
 
-        public OnChangedElementEventArgs(ObservableField<T> element, T oldValue, T newValue)
-            : base(CollectionChangeTypes.ELEMENT)
+        /// <summary>
+        /// The internal data state of the element that was changed. 
+        /// Can be null in case an element's internal state was NOT changed. 
+        /// </summary>
+        public ValueChangedEventArgs<T> ElementChangeArgs { get; private set; }
+
+        public ElementChangedEventArgs(ObservableData<T> element, int oldIndex, int newIndex, ValueChangedEventArgs<T> elementChangeArgs = null)
         {
             Element = element;
-            OldValue = oldValue;
-            NewValue = newValue;
-        }
-    }
-
-    public class OnChangedListEventArgs<T> : OnChangedEventArgs<T>
-    {
-        public IEnumerable<ObservableField<T>> OldList { get; private set; }
-
-        public IEnumerable<ObservableField<T>> NewList { get; private set; }
-
-        public OnChangedListEventArgs(CollectionChangeTypes changeType, IEnumerable<ObservableField<T>> oldList, IEnumerable<ObservableField<T>> newList)
-            : base(changeType)
-        {
-            OldList = oldList;
-            NewList = newList;
+            OldIndex = oldIndex;
+            NewIndex = newIndex;
+            ElementChangeArgs = elementChangeArgs;
         }
     }
 
@@ -81,68 +74,99 @@ namespace iwbe.common.observables
     /// Represents a collection/list whose data set changes can be observed/listened for. 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ObservableDataCollection<T> : IObservableData, ICollection<ObservableField<T>> where T : class
+    public class ObservableDataCollection<T> : IObservableData, ICollection<ObservableData<T>> where T : class
     {
-        public delegate void onChangedHandler(IObservableData sender, OnChangedEventArgs<T> e);
+        public delegate void ChangedHandler(IObservableData sender, ChangedEventArgs<T> e);
 
-        public event IObservableData.onChangedHandler OnChanged;
+        public event IObservableData.ChangedHandler Changed;
 
-        public event onChangedHandler OnListChanged;
+        public event ChangedHandler ListChanged;
 
-        private List<ObservableField<T>> _wrapped;
+        private List<ObservableData<T>> _wrapped;
 
         public int Count => _wrapped.Count;
 
         public bool IsReadOnly => false;
 
-        public ObservableField<T> this[int index] => _wrapped[index];
+        public ObservableData<T> this[int index] => _wrapped[index];
 
         public ObservableDataCollection()
         {
-            _wrapped = new List<ObservableField<T>>();
+            _wrapped = new List<ObservableData<T>>();
         }
 
-        public ObservableDataCollection(IEnumerable<ObservableField<T>> elements)
+        public ObservableDataCollection(IEnumerable<ObservableData<T>> elements)
         {
-            _wrapped = new List<ObservableField<T>>(elements);
+            _wrapped = new List<ObservableData<T>>(elements);
             foreach (var element in elements)
             {
-                element.OnValueChanged += Element_OnValueChanged;
+                element.ValueChanged += Element_OnValueChanged;
             }
         }
 
         /// <summary>
-        /// Adds the given element at the end of the collection.
+        /// Adds the given element at the end of the collection. 
+        /// 
+        /// Silently ignores attempts to add elements that are already contained. 
         /// </summary>
-        /// <param name="item"></param>
-        public void Add(ObservableField<T> item)
+        /// <param name="element"></param>
+        public void Add(ObservableData<T> element)
         {
-            _wrapped.Add(item);
-            item.OnValueChanged += Element_OnValueChanged;
+            if (Contains(element)) return;
+
+            _wrapped.Add(element);
+            element.ValueChanged += Element_OnValueChanged;
+
+            ListChanged?.Invoke(this, new ChangedEventArgs<T>(CollectionChangeTypes.ADD, new List<ElementChangedEventArgs<T>>()
+            {
+                new ElementChangedEventArgs<T>(element, -1, _wrapped.Count)
+            }));
+            Changed?.Invoke(this);
         }
 
         /// <summary>
         /// Adds the given element at the given index. 
+        /// 
+        /// Silently ignores attempts to add elements that are already contained. 
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="element"></param>
         /// <param name="index"></param>
-        public void AddAt(ObservableField<T> item, int index)
+        public void AddAt(ObservableData<T> element, int index)
         {
-            _wrapped.Insert(index, item);
-            item.OnValueChanged += Element_OnValueChanged;
+            if (Contains(element)) return;
+
+            _wrapped.Insert(index, element);
+            element.ValueChanged += Element_OnValueChanged;
+
+            ListChanged?.Invoke(this, new ChangedEventArgs<T>(CollectionChangeTypes.ADD, new List<ElementChangedEventArgs<T>>()
+            {
+                new ElementChangedEventArgs<T>(element, -1, index)
+            }));
+            Changed?.Invoke(this);
         }
 
         /// <summary>
         /// Adds the given elements to the end of the collection.
+        /// 
+        /// Silently ignores attempts to add elements that are already contained. 
         /// </summary>
         /// <param name="elements"></param>
-        public void AddRange(IEnumerable<ObservableField<T>> elements)
+        public void AddRange(IEnumerable<ObservableData<T>> elements)
         {
-            _wrapped.AddRange(elements);
+            var args = new List<ElementChangedEventArgs<T>>();
+
             foreach(var element in elements)
             {
-                element.OnValueChanged += Element_OnValueChanged;
+                if (Contains(element)) continue;
+
+                _wrapped.Add(element);
+                element.ValueChanged += Element_OnValueChanged;
+                int index = IndexOf(element);
+                args.Add(new ElementChangedEventArgs<T>(element, -1, index));
             }
+
+            ListChanged?.Invoke(this, new ChangedEventArgs<T>(CollectionChangeTypes.ADD, args));
+            Changed?.Invoke(this);
         }
 
         /// <summary>
@@ -150,11 +174,17 @@ namespace iwbe.common.observables
         /// </summary>
         public void Clear()
         {
-            foreach (var item in _wrapped)
+            var args = new List<ElementChangedEventArgs<T>>();
+            foreach (var element in _wrapped)
             {
-                item.OnValueChanged -= Element_OnValueChanged;
+                element.ValueChanged -= Element_OnValueChanged;
+                int index = IndexOf(element);
+                args.Add(new ElementChangedEventArgs<T>(element, index, -1));
             }
             _wrapped.Clear();
+
+            ListChanged?.Invoke(this, new ChangedEventArgs<T>(CollectionChangeTypes.REMOVE, args));
+            Changed?.Invoke(this);
         }
 
         /// <summary>
@@ -162,12 +192,12 @@ namespace iwbe.common.observables
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public bool Contains(ObservableField<T> item)
+        public bool Contains(ObservableData<T> item)
         {
             return _wrapped.Contains(item);
         }
 
-        public void CopyTo(ObservableField<T>[] array, int arrayIndex)
+        public void CopyTo(ObservableData<T>[] array, int arrayIndex)
         {
             _wrapped.CopyTo(array, arrayIndex);
         }
@@ -175,12 +205,23 @@ namespace iwbe.common.observables
         /// <summary>
         /// Removes the given element. 
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="element"></param>
         /// <returns></returns>
-        public bool Remove(ObservableField<T> item)
+        public bool Remove(ObservableData<T> element)
         {
-            item.OnValueChanged -= Element_OnValueChanged;
-            return _wrapped.Remove(item);
+            if (Contains(element) == false) return false;
+
+            element.ValueChanged -= Element_OnValueChanged;
+            bool result = _wrapped.Remove(element);
+
+            var args = new List<ElementChangedEventArgs<T>>()
+            {
+                new ElementChangedEventArgs<T>(element, IndexOf(element), -1),
+            };
+            ListChanged?.Invoke(this, new ChangedEventArgs<T>(CollectionChangeTypes.REMOVE, args));
+            Changed?.Invoke(this);
+
+            return result;
         }
 
         /// <summary>
@@ -191,7 +232,19 @@ namespace iwbe.common.observables
         public bool RemoveAt(int index)
         {
             var element = _wrapped[index];
-            return Remove(element);
+            if (element == null) return false;
+
+            element.ValueChanged -= Element_OnValueChanged;
+            bool result = Remove(element);
+
+            var args = new List<ElementChangedEventArgs<T>>()
+            {
+                new ElementChangedEventArgs<T>(element, index, -1),
+            };
+            ListChanged?.Invoke(this, new ChangedEventArgs<T>(CollectionChangeTypes.REMOVE, args));
+            Changed?.Invoke(this);
+
+            return result;
         }
 
         /// <summary>
@@ -199,12 +252,51 @@ namespace iwbe.common.observables
         /// </summary>
         /// <param name="toReplace"></param>
         /// <param name="replaceWith"></param>
-        public void Replace(T toReplace, T replaceWith)
+        /// <exception cref="InvalidOperationException">Thrown, if both elements are already contained, 
+        /// or if <paramref name="toReplace"/> is not contained 
+        /// or if <paramref name="replaceWith"/> is already contained
+        /// </exception>
+        public void Replace(ObservableData<T> toReplace, ObservableData<T> replaceWith)
         {
-
+            int toReplaceIndex = IndexOf(toReplace);
+            ReplaceAt(toReplaceIndex, replaceWith);
         }
 
-        public IEnumerator<ObservableField<T>> GetEnumerator()
+        /// <summary>
+        /// Attempts to replace the given element with the given element. 
+        /// </summary>
+        /// <param name="toReplaceIndex"></param>
+        /// <param name="replaceWith"></param>
+        public void ReplaceAt(int toReplaceIndex, ObservableData<T> replaceWith)
+        {
+            var toReplace = _wrapped[toReplaceIndex];
+            if (Contains(toReplace) && Contains(replaceWith))
+            {
+                throw new InvalidOperationException("Both elements are already contained in the collection; Consider using the Move method instead");
+            }
+            else if (Contains(toReplace) == false)
+            {
+                throw new InvalidOperationException("toReplace is not contained and can thus not be replaced");
+            }
+            else if (Contains(replaceWith))
+            {
+                throw new InvalidOperationException("replaceWith is already contained and can thus not be used in replacement");
+            }
+
+            _wrapped[toReplaceIndex] = replaceWith;
+            toReplace.ValueChanged -= Element_OnValueChanged;
+            replaceWith.ValueChanged += Element_OnValueChanged;
+
+            var args = new List<ElementChangedEventArgs<T>>()
+            {
+                new ElementChangedEventArgs<T>(toReplace, toReplaceIndex, -1),
+                new ElementChangedEventArgs<T>(replaceWith, -1, toReplaceIndex),
+            };
+            ListChanged?.Invoke(this, new ChangedEventArgs<T>(CollectionChangeTypes.REPLACE, args));
+            Changed?.Invoke(this);
+        }
+
+        public IEnumerator<ObservableData<T>> GetEnumerator()
         {
             return _wrapped.GetEnumerator();
         }
@@ -214,12 +306,12 @@ namespace iwbe.common.observables
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public int IndexOf(ObservableField<T> item)
+        public int IndexOf(ObservableData<T> item)
         {
             return _wrapped.IndexOf(item);
         }
 
-        public IEnumerable<ObservableField<T>> GetAll()
+        public IEnumerable<ObservableData<T>> GetAll()
         {
             return _wrapped.ToArray();
         }
@@ -237,17 +329,23 @@ namespace iwbe.common.observables
                 throw new IndexOutOfRangeException();
             }
 
-            var oldList = _wrapped.ToArray();
-
-            // Ensure the new index remains bounded. 
-            var newIndex = Math.Max(Math.Min(_wrapped.Count - 1, toIndex), 0);
-
             // "Move" the object by first removing and then re-inserting it at the desired index.
-            var element = _wrapped[fromIndex];
-            _wrapped.RemoveAt(fromIndex);
-            _wrapped.Insert(newIndex, element);
+            var elementA = _wrapped[fromIndex];
+            var elementB = _wrapped[toIndex];
 
-            this.OnListChanged?.Invoke(this, new OnChangedListEventArgs<T>(CollectionChangeTypes.MOVE, oldList, _wrapped.ToArray()));
+            _wrapped.RemoveAt(fromIndex);
+            _wrapped.RemoveAt(toIndex);
+
+            _wrapped.Insert(fromIndex, elementB);
+            _wrapped.Insert(toIndex, elementA);
+
+            var args = new List<ElementChangedEventArgs<T>>()
+            {
+                new ElementChangedEventArgs<T>(elementA, fromIndex, toIndex),
+                new ElementChangedEventArgs<T>(elementB, toIndex, fromIndex),
+            };
+            ListChanged?.Invoke(this, new ChangedEventArgs<T>(CollectionChangeTypes.MOVE, args));
+            Changed?.Invoke(this);
         }
 
 
@@ -256,10 +354,15 @@ namespace iwbe.common.observables
             return GetEnumerator();
         }
 
-        private void Element_OnValueChanged(IObservableData sender, T oldValue, T newValue)
+        private void Element_OnValueChanged(IObservableData sender, ValueChangedEventArgs<T> e)
         {
-            var observableField = sender as ObservableField<T>;
-            this.OnListChanged?.Invoke(this, new OnChangedElementEventArgs<T>(observableField, oldValue, newValue));
+            var observableField = sender as ObservableData<T>;
+            int index = IndexOf(observableField);
+            this.ListChanged?.Invoke(this, new ChangedEventArgs<T>(CollectionChangeTypes.ELEMENT, new List<ElementChangedEventArgs<T>>()
+                {
+                    new ElementChangedEventArgs<T>(observableField, index, index, e)
+                }
+            ));
         }
     }
 }

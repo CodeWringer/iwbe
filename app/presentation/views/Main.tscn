@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://hr5u5ri72rmq"]
+[gd_scene load_steps=5 format=3 uid="uid://hr5u5ri72rmq"]
 
 [ext_resource type="Script" path="res://presentation/views/Main.cs" id="1"]
+[ext_resource type="Theme" uid="uid://c5fyq3xoyjhit" path="res://presentation/theme/default_dark_theme.tres" id="1_lh1ii"]
 [ext_resource type="PackedScene" uid="uid://dq2u6juqu8msv" path="res://presentation/views/menu/MainMenuBar.tscn" id="2_cfslr"]
 [ext_resource type="PackedScene" uid="uid://6qsv5r7xi1pq" path="res://presentation/views/workspace/WorkspaceBar.tscn" id="3_tjrn0"]
 
@@ -11,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_lh1ii")
 script = ExtResource("1")
 
 [node name="Panel" type="Panel" parent="."]

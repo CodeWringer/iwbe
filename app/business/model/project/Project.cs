@@ -1,15 +1,23 @@
-﻿using iwbe.common.observables;
+﻿using iwbe.business.dataaccess.dto;
+using iwbe.common.observables;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace iwbe.business.model
 {
     /// <summary>
     /// Represents a project. 
     /// </summary>
-    public class Project : IEquatable<Project>, IObservableData
+    public class Project : IEquatable<Project>, IObservableData, ISerializable<Project, ProjectDto>
     {
-        public event IObservableData.onChangedHandler OnChanged;
+        internal static Project FromDto(ProjectDto dto)
+        {
+            var id = ProjectId.FromDto(dto.id);
+            return new Project(id);
+        }
+
+        public event IObservableData.ChangedHandler Changed;
 
         /// <summary>
         /// The project's metadata, which uniquely identifies it. 
@@ -19,7 +27,7 @@ namespace iwbe.business.model
         /// <summary>
         /// Name of the last opened workspace, e. g. "Canvas" or "Writing". 
         /// </summary>
-        public ObservableField<string> LastWorkspace;
+        public ObservableData<string> LastWorkspace;
 
         /// <summary>
         /// List of strings, representing project-relative file paths, of the articles still open when the editor/project was closed.
@@ -39,26 +47,26 @@ namespace iwbe.business.model
         /// <summary>
         /// Assets of this project. 
         /// </summary>
-        public ObservableField<ProjectAssets> Assets;
+        public ObservableData<ProjectAssets> Assets;
 
         /// <summary>
         /// Content of this project (articles, canvas objects, etc.). 
         /// </summary>
-        public ObservableField<ProjectContent> Content;
+        public ObservableData<ProjectContent> Content;
 
         private Project()
         {
-            LastWorkspace = new ObservableField<string>();
-            LastWorkspace.OnChanged += OnChanged;
+            LastWorkspace = new ObservableData<string>();
+            LastWorkspace.Changed += Changed;
 
             LastArticles = new ObservableDataCollection<string>();
-            LastArticles.OnChanged += OnChanged;
+            LastArticles.Changed += Changed;
 
-            Assets = new ObservableField<ProjectAssets>();
-            Assets.OnChanged += OnChanged;
+            Assets = new ObservableData<ProjectAssets>();
+            Assets.Changed += Changed;
 
-            Content = new ObservableField<ProjectContent>();
-            Content.OnChanged += OnChanged;
+            Content = new ObservableData<ProjectContent>();
+            Content.Changed += Changed;
         }
 
         public Project(ProjectId id)
@@ -91,6 +99,22 @@ namespace iwbe.business.model
         public override int GetHashCode()
         {
             return this.ID.GetHashCode();
+        }
+
+        public ProjectDto ToDto()
+        {
+            var lastArticles = new List<string>();
+            foreach (var lastArticle in LastArticles)
+            {
+                lastArticles.Add(lastArticle.Value);
+            }
+
+            return new ProjectDto()
+            {
+                id = ID.ToDto(),
+                lastWorkspace = LastWorkspace.Value,
+                lastArticles = lastArticles.ToArray(),
+            };
         }
     }
 }

@@ -5,8 +5,8 @@
     /// </summary>
     public interface IObservableData
     {
-        public delegate void onChangedHandler(IObservableData sender);
+        public delegate void ChangedHandler(IObservableData sender);
 
-        public event onChangedHandler OnChanged;
+        public event ChangedHandler Changed;
     }
 }

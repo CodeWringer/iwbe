@@ -11,56 +11,57 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 8.0
 grow_horizontal = 2
+size_flags_horizontal = 3
 script = ExtResource("1_fpn44")
 
-[node name="Button" type="Button" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Button"]
-layout_mode = 2
-offset_right = 1152.0
-offset_bottom = 40.0
-grow_horizontal = 2
-grow_vertical = 2
 theme_override_constants/separation = 0
 
-[node name="ButtonPin" parent="Button/HBoxContainer" instance=ExtResource("1_m0kxj")]
+[node name="ButtonPin" parent="HBoxContainer" instance=ExtResource("1_m0kxj")]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-image_texture = ExtResource("2_ss7v4")
+ImageTexture = ExtResource("2_ss7v4")
 
-[node name="Spacer" type="Control" parent="Button/HBoxContainer"]
+[node name="Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Spacer" type="Control" parent="HBoxContainer/Button/HBoxContainer"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 mouse_filter = 1
 
-[node name="CenterContainer" type="CenterContainer" parent="Button/HBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer/Button/HBoxContainer"]
 layout_mode = 2
 
-[node name="LabelName" type="Label" parent="Button/HBoxContainer/CenterContainer"]
+[node name="LabelName" type="Label" parent="HBoxContainer/Button/HBoxContainer/CenterContainer"]
 layout_mode = 2
 mouse_filter = 1
 text = "Name"
 
-[node name="Spacer2" type="Control" parent="Button/HBoxContainer"]
+[node name="Spacer2" type="Control" parent="HBoxContainer/Button/HBoxContainer"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 mouse_filter = 1
 
-[node name="CenterContainer2" type="CenterContainer" parent="Button/HBoxContainer"]
+[node name="CenterContainer2" type="CenterContainer" parent="HBoxContainer/Button/HBoxContainer"]
 layout_mode = 2
 
-[node name="LabelPath" type="Label" parent="Button/HBoxContainer/CenterContainer2"]
+[node name="LabelPath" type="Label" parent="HBoxContainer/Button/HBoxContainer/CenterContainer2"]
 layout_mode = 2
 mouse_filter = 1
 text = "Path/to/project"
 
-[node name="Spacer3" type="Control" parent="Button/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-
-[node name="ButtonDelete" parent="Button/HBoxContainer" instance=ExtResource("1_m0kxj")]
+[node name="ButtonDelete" parent="HBoxContainer" instance=ExtResource("1_m0kxj")]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-image_texture = ExtResource("3_cq8mt")
+ImageTexture = ExtResource("3_cq8mt")

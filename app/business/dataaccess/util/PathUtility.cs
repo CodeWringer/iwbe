@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -40,6 +41,15 @@ namespace iwbe.business.dataaccess.util
         public static bool IsFilePathValid(string filePath)
         {
             return rgxFilePath.Match(filePath).Success;
+        }
+
+        /// <summary>
+        /// Returns the globalized (i. e. OS relative) path of the user directory path. See also USER_DIR_PATH_PREFIX. 
+        /// </summary>
+        /// <returns></returns>
+        public static string GetUserDirPath()
+        {
+            return Godot.ProjectSettings.GlobalizePath(USER_DIR_PATH_PREFIX);
         }
     }
 }

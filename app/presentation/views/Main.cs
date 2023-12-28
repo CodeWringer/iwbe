@@ -18,7 +18,7 @@ public partial class Main : Control
 	/// </summary>
 	private WorkspaceLoader _workspaceLoader;
 
-	private PackedScene _startupScene = SceneLoader.Load("presentation/views/startup/Startup.tscn");
+	private PackedScene _startupScene = SceneLoader.Load(Startup.Template);
 
     /// <summary>
     /// A reference to the state object, as fetched from the auto-loaded ApplicationStateNode. 

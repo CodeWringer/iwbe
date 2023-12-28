@@ -4,9 +4,11 @@ using System;
 
 public partial class ProjectListItem : PanelContainer
 {
-	event EventHandler PinClicked;
-	event EventHandler Clicked;
-	event EventHandler DeleteClicked;
+	public static readonly string Template = "presentation/views/workspace/project/ProjectListItem.tscn";
+
+    public event EventHandler PinClicked;
+	public event EventHandler Clicked;
+	public event EventHandler DeleteClicked;
 
 	private ImageButton _pinButton;
 	private Button _button;

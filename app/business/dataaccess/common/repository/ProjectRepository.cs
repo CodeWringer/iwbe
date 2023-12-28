@@ -49,6 +49,7 @@ namespace iwbe.business.dataaccess.common.repository
                         new DateTime(2023, 12, 24, 13, 10, 20)
                     )
                 };
+                list[0].ID.IsPinned.Value = true;
 
                 return list;
             } else {

@@ -34,7 +34,7 @@ theme_override_constants/margin_left = 4
 [node name="Label" type="Label" parent="VBoxContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Recent Projects"
+text = "Title"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
 layout_mode = 2

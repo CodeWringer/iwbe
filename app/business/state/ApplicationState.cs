@@ -27,9 +27,15 @@ namespace iwbe.business.state
         /// </summary>
         public bool Mock { get; private set; } = true; // TODO: Make dynamic
 
-        public ObservableData<Project> Project { get; private set; } = new ObservableData<Project>();
+        /// <summary>
+        /// If not null, the currently active project. 
+        /// </summary>
+        public ObservableData<Project> Project { get; private set; } = new();
 
-        public ObservableDataCollection<ProjectId> ProjectIds { get; private set; } = new ObservableDataCollection<ProjectId>();
+        /// <summary>
+        /// The list of project ids. 
+        /// </summary>
+        public ObservableDataCollection<ProjectId> ProjectIds { get; private set; } = new();
 
         public ApplicationState()
         {
@@ -56,6 +62,7 @@ namespace iwbe.business.state
                     };
                     projectIds.Add(observable);
                 }
+
                 ProjectIds.AddRange(projectIds);
             }
             catch { }

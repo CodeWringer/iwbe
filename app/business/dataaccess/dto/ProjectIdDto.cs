@@ -7,5 +7,6 @@
         public string id;
         public string creationDate;
         public string lastEditDate;
+        public bool isPinned;
     }
 }

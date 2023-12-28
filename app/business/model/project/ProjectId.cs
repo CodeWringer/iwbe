@@ -25,54 +25,56 @@ namespace iwbe.business.model
         /// <summary>
         /// Display name of a project. 
         /// </summary>
-        public ObservableData<string> Name;
+        public ObservableData<string> Name = new();
 
         /// <summary>
         /// Full file path on disk. 
         /// </summary>
-        public ObservableData<string> PathOnDisk;
+        public ObservableData<string> PathOnDisk = new();
 
         /// <summary>
         /// Date and time of creation. 
         /// </summary>
-        public ObservableData<DateTime> CreationDate;
+        public ObservableData<DateTime> CreationDate = new();
 
         /// <summary>
         /// Date and time of last edit/open of the project. 
         /// </summary>
-        public ObservableData<DateTime> LastEditDate;
+        public ObservableData<DateTime> LastEditDate = new();
+
+        /// <summary>
+        /// If true, determines this project to be pinned. 
+        /// </summary>
+        public ObservableData<bool> IsPinned = new();
 
         public ProjectId()
         {
-            Name = new ObservableData<string>();
-            Name.Changed += Changed;
-
-            PathOnDisk = new ObservableData<string>();
-            PathOnDisk.Changed += Changed;
-
             ID = new Guid();
 
-            CreationDate = new ObservableData<DateTime>();
+            Name.Changed += Changed;
+            PathOnDisk.Changed += Changed;
             CreationDate.Changed += Changed;
-
-            LastEditDate = new ObservableData<DateTime>();
             LastEditDate.Changed += Changed;
+            IsPinned.Changed += Changed;
         }
 
         public ProjectId(string name, string pathOnDisk, Guid id, DateTime creationDate, DateTime lastEditDate)
         {
+            ID = id;
+
             Name = new ObservableData<string>(name);
             Name.Changed += Changed;
 
             PathOnDisk = new ObservableData<string>(pathOnDisk);
             PathOnDisk.Changed += Changed;
 
-            ID = id;
             CreationDate = new ObservableData<DateTime>(creationDate);
             CreationDate.Changed += Changed;
 
             LastEditDate = new ObservableData<DateTime>(lastEditDate);
             LastEditDate.Changed += Changed;
+
+            IsPinned.Changed += Changed;
         }
 
         public bool Equals(ProjectId other)
@@ -99,6 +101,7 @@ namespace iwbe.business.model
                 pathOnDisk = PathOnDisk.Value,
                 creationDate = CreationDate.Value.ToShortDateString(),
                 lastEditDate = LastEditDate.Value.ToShortDateString(),
+                isPinned = IsPinned.Value,
             };
         }
     }
